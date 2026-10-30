@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#243d2c">
+  <meta name="description" content="Cardápio da Cafeteria Vida e Propósito.">
+  <title>Cardápio | Cafeteria Vida e Propósito</title>
+  <style>
+    :root { color-scheme: light; --green:#294333; --green-soft:#e9efe8; --ink:#262922; --muted:#6e7169; --paper:#faf9f5; --line:#e9e6dc; --accent:#bd8b51; }
+    * { box-sizing:border-box }
+    html { scroll-behavior:smooth; scroll-padding-top:122px }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif }
+    .site-header { background:var(--green); color:#fff; padding:24px 20px 26px; text-align:center }
+    .brand-mark { width:54px; height:54px; display:grid; place-items:center; margin:0 auto 10px; border:1px solid #c8b589; border-radius:50%; color:#f4e9cf; font:700 12px/1.05 Georgia,serif; letter-spacing:.04em }
+    .brand-mark span { display:block }
+    h1 { margin:0; font:600 clamp(24px,6vw,34px)/1.15 Georgia,serif; letter-spacing:.01em }
+    .tagline { margin:7px 0 0; color:#e0e8df; font-size:14px }
+    .nav-wrap { position:sticky; top:0; z-index:5; background:rgba(250,249,245,.96); border-bottom:1px solid var(--line); backdrop-filter:blur(12px) }
+    .category-nav { display:flex; gap:8px; overflow-x:auto; max-width:900px; margin:auto; padding:11px 16px; scrollbar-width:none }
+    .category-nav::-webkit-scrollbar { display:none }
+    .category-nav a { flex:0 0 auto; padding:8px 13px; border-radius:99px; background:#f0eee7; color:#4f554d; text-decoration:none; font-size:13px; font-weight:650; white-space:nowrap }
+    .category-nav a:hover,.category-nav a:focus-visible { background:var(--green); color:#fff; outline:none }
+    main { width:min(100% - 32px,760px); margin:26px auto 64px }
+    .intro { margin:0 0 25px; color:var(--muted); font-size:14px }
+    .menu-section { margin:0 0 36px; scroll-margin-top:78px }
+    .section-heading { display:flex; align-items:center; gap:12px; margin:0 0 13px; color:var(--green); font:600 23px/1.2 Georgia,serif }
+    .section-heading::after { content:""; height:1px; flex:1; background:var(--line) }
+    .product-list { display:grid; gap:10px }
+    .product { display:grid; grid-template-columns:minmax(0,1fr) 88px; align-items:center; gap:12px; padding:12px; background:#fff; border:1px solid #efede6; border-radius:14px; box-shadow:0 2px 9px #322b1710 }
+    .product h3 { margin:0 0 3px; font-size:15px; line-height:1.3; font-weight:700 }
+    .product p { margin:0; color:var(--muted); font-size:13px; line-height:1.4 }
+    .product .price { display:block; margin-top:8px; color:var(--green); font-size:15px; font-weight:750 }
+    .product img { display:block; width:88px; height:88px; border-radius:10px; object-fit:cover; background:var(--green-soft) }
+    .site-footer { padding:25px 16px; background:#f0eee7; color:var(--muted); text-align:center; font-size:13px }
+    .site-footer strong { color:var(--green) }
+    @media (min-width:640px) { .site-header { padding:34px 24px 32px } main { margin-top:34px } .product { grid-template-columns:minmax(0,1fr) 104px; padding:14px 16px } .product img { width:104px; height:104px } .product h3 { font-size:16px } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto } }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="inicio">
+    <div class="brand-mark" aria-hidden="true"><span>VIDA<br>&amp; PROPÓSITO</span></div>
+    <h1>Cafeteria Vida e Propósito</h1>
+    <p class="tagline">Um momento gostoso para nutrir o seu dia</p>
+  </header>
+  <div class="nav-wrap"><nav class="category-nav" aria-label="Categorias do cardápio" id="category-nav"></nav></div>
+  <main>
+    <p class="intro">Feito com carinho, preparado para acompanhar seus melhores momentos.</p>
+    <div id="menu"></div>
+  </main>
+  <footer class="site-footer"><strong>Cafeteria Vida e Propósito</strong><br>Escolha seu favorito e aproveite.</footer>
+  <script>
+    const categories = [
+      { name: "Cuscuz", items: [
+        ["Raízes de Fé - Cuscuz de Frango", "Flocão de milho com frango desfiado temperado com alho, cebola, tomate e páprica. Sabor autêntico!", 28, 0],
+        ["Abraço Nordestino - Cuscuz de Carne Seca com Banana", "Flocão de milho com carne seca desfiada, cebola, alho, manteiga de garrafa e banana-da-terra.", 30, 1],
+        ["Sabor que Conecta - Cuscuz de Calabresa", "Flocão de milho com calabresa defumada, cebola, tomate, pimentão e cheiro-verde. Irresistível!", 25, 2],
+        ["Cuscuz Tudão", "Massa de cuscuz, frango, calabresa, carne seca, requeijão e banana, finalizado com queijo maçaricado.", 45, 3],
+        ["Cuscuz Capósi", "Massa de cuscuz, presunto, queijo e requeijão, finalizado com queijo maçaricado.", 20, 11],
+        ["Cuscuz Calabresa e Carne Seca e Requeijão", "Massa de cuscuz, calabresa, carne seca, requeijão e queijo maçaricado na finalização.", 32, 12]
+      ]},
+      { name: "Omeletes", items: [
+        ["Tradição que Acolhe - Omelete de Carne Seca", "Ovos com carne seca desfiada, cebola, tomate e cheiro-verde, temperado com azeite e pimenta-do-reino.", 25, 13],
+        ["Simplicidade que Renova - Omelete Simples", "Ovos, leite e queijo opcional com azeite, pimenta-do-reino e cheiro-verde. Leve e delicioso!", 18, 14],
+        ["Caminho de Força - Omelete de Frango", "Ovos frescos com frango desfiado, tomate, cebola e cheiro-verde, finalizado com azeite e temperos.", 20, 15]
+      ]},
+      { name: "Bebidas quentes", items: [
+        ["Café coado", "Abraço da Manhã - café coado artesanalmente, suave e reconfortante para começar o dia com leveza.", 3, 16],
+        ["Força do Senhor - Café especial", "Café arábica em grãos, moído na hora, torra média. Encorpado, intenso e aromático.", 5, 22],
+        ["Café com Afeto", "Café espresso com leite vaporizado, essência de baunilha, chantilly e raspas de chocolate.", 15, 23],
+        ["Café Florescer", "Espresso intenso combinado ao frescor do suco de laranja, servido com gelo.", 18, 24],
+        ["Capuccino", "Doçura e amor - espuma cremosa sobre café encorpado, com toque de canela.", 10, 25],
+        ["Pingado", "Mistura que acalenta - café coado com leite quentinho, equilíbrio perfeito de sabor e conforto.", 8, 26],
+        ["Café espresso com chantilly", "A intensidade do espresso encontra a leveza e a cremosidade do chantilly.", 10, 27]
+      ]},
+      { name: "Doces", items: [
+        ["Picolé de Pudim", "Cremoso pudim de leite transformado em picolé gelado - sobremesa artesanal única e deliciosa!", null, 28],
+        ["Bolos artesanais", "Receitas caseiras exclusivas - macios, úmidos e feitos com amor.", 20, 34],
+        ["Geladinho Gourmet de Pudim", "Geladinho artesanal com sabor de pudim cremoso, refrescante e suave.", 15, 35],
+        ["Brigadeiro", "Brigadeiro caseiro com chocolate de qualidade, cremoso e envolvido em granulado.", 10, 36],
+        ["Pão de Queijo Médio Recheado", "Recheios opcionais: goiabada, Nutella ou doce de leite e morango.", 15, 37],
+        ["Brownie com sorvete de creme", "Brownie de chocolate com sorvete de creme, calda e raspas de chocolate.", 22, 38],
+        ["Brownie", "Chocolate intenso, macio e fofinho por dentro, com delicada casquinha por fora.", 10, 40],
+        ["Trufa de Capuccino", "Trufa cremosa sabor capuccino, com equilíbrio entre café e chocolate.", 10, 41],
+        ["Waffle de Nutella e morango", "Waffle douradinho e crocante, recheado com Nutella e morango.", 22, 47],
+        ["Waffle Jardim de Deus", "Nutella, morango e geleia de frutas vermelhas.", 25, 48],
+        ["Salada de Frutas do dia - 200 g", "Mix de frutas selecionadas, leve, colorido e refrescante.", 5, 49]
+      ]},
+      { name: "Salgados", items: [
+        ["Salgados Assados do dia", "Seleção de salgados artesanais, dourados e crocantes por fora, com recheio suculento.", 15, 50],
+        ["Misto Quente de Presunto", "Pão tostado na chapa com presunto, muçarela derretida, orégano e tomate fresco.", 15, 51],
+        ["Sanduíche Natural de Presunto", "Pão natural com presunto, queijo, alface, cenoura ralada e milho verde.", 18, 52],
+        ["Pão de Queijo Recheado Especial", "Recheado com ovo, presunto, mussarela e frango.", null, 53],
+        ["Misto Quente de Frango", "Pão tostado na chapa com frango, queijo derretido, orégano e tomate fresco.", 18, 59],
+        ["Pão com Ovo", "Pão quentinho preparado com ovo fresquinho - simples e reconfortante.", 12, 60],
+        ["Pão de Queijo - unidade", "Artesanal, assado na hora, crocante por fora e macio por dentro.", 1.5, 61],
+        ["Pão de Queijo Recheado de Frango", "Pão de queijo generoso recheado com frango temperado e suculento.", 15, 62],
+        ["Sanduíche Natural de Frango", "Pão natural com frango, queijo, alface, cenoura ralada e milho verde.", 18, 63]
+      ]},
+      { name: "Tapiocas e crepiocas", items: [
+        ["Tapioca com presunto e queijo", "Tapioca macia, preparada na hora, recheada com presunto e queijo derretido.", 18, 64],
+        ["Tapioca de Frango", "Frango desfiado bem temperado e queijo derretido.", 20, 65],
+        ["Tapioca de Carne Seca com Banana", "Carne seca desfiada, queijo derretido e banana-da-terra douradinha.", 25, 71],
+        ["Crepioca de presunto e queijo", "Massa leve e dourada, recheada com presunto e queijo derretido.", 20, 72],
+        ["Crepioca de frango com requeijão cremoso", "Frango desfiado bem temperado e requeijão cremoso.", 22, 73],
+        ["Crepioca de carne seca com banana-da-terra", "Carne seca desfiada, queijo derretido e banana-da-terra dourada.", 28, 74]
+      ]},
+      { name: "Bebidas geladas", items: [
+        ["Refrigerante - lata pequena", "Gelado e refrescante.", 7, 75],
+        ["Água sem gás", "Água mineral natural bem gelada.", 7, 76],
+        ["Água tônica", "Gelada e borbulhante, levemente amarga e refrescante.", null, 77],
+        ["Energético TNT", "Gelado, sabor intenso e refrescante.", 13, 83],
+        ["Capuccino Gelado", "Cappuccino cremoso servido gelado, com sabor intenso de café e toque adocicado.", 21, 84],
+        ["Água com gás", "Água mineral com gás bem gelada.", 8, 85],
+        ["Refrigerante - lata grande", "Gelado, a dose certa de refrescância.", 8, 86],
+        ["Soda Italiana de Frutas Vermelhas", "Borbulhante e refrescante.", 20, 87],
+        ["Monster - diversos sabores", "Monster Energy gelado em diversas versões.", 18, 88],
+        ["Suco de Polpa com Água", "Maracujá, morango, frutas vermelhas, uva ou abacaxi com hortelã.", 15, 89],
+        ["Suco de Polpa com Leite", "Suco cremoso: maracujá, morango, frutas vermelhas, uva ou abacaxi com hortelã.", 18, 95],
+        ["Schweppes", "Água tônica com toque cítrico e borbulhante.", 8, 96],
+        ["Café Affogato", "Sorvete de creme servido com uma dose de café espresso quente.", 18, 97],
+        ["Frapuccino", "Bebida gelada cremosa de café.", 22, 98],
+        ["Café Gelado", "Bebida gelada à base de café.", 20, 99]
+      ]},
+      { name: "Café da manhã", items: [
+        ["Brusch da manhã", "Ovos mexidos cremosos, tomate confit, pão tostado e café coado - uma experiência para começar bem o dia.", 37, 99]
+      ]},
+      { name: "Linha proteica", items: [
+        ["Açaí com whey", "Açaí batido com leite e whey. Cremoso, saboroso e proteico.", 25, 105],
+        ["Energia para vida", "Frutas vermelhas, polpa de maracujá, iogurte natural, água de coco e whey.", 20, 106],
+        ["Protein coffee", "Café espresso, leite e whey protein. Sabor, energia e proteína.", 20, 107]
+      ]}
+    ];
+    const money = value => value == null ? "Consulte" : value.toLocaleString("pt-BR", { style:"currency", currency:"BRL" });
+    const nav = document.querySelector("#category-nav");
+    const menu = document.querySelector("#menu");
+    categories.forEach((category, index) => {
+      const id = `categoria-${index + 1}`;
+      const link = document.createElement("a");
+      link.href = `#${id}`;
+      link.textContent = category.name;
+      nav.append(link);
+      const section = document.createElement("section");
+      section.className = "menu-section";
+      section.id = id;
+      section.setAttribute("aria-labelledby", `${id}-titulo`);
+      const heading = document.createElement("h2");
+      heading.className = "section-heading";
+      heading.id = `${id}-titulo`;
+      heading.textContent = category.name;
+      const list = document.createElement("div");
+      list.className = "product-list";
+      category.items.forEach(([name, description, price, image]) => {
+        const article = document.createElement("article");
+        article.className = "product";
+        const details = document.createElement("div");
+        const title = document.createElement("h3");
+        title.textContent = name;
+        const text = document.createElement("p");
+        text.textContent = description;
+        const cost = document.createElement("span");
+        cost.className = "price";
+        cost.textContent = money(price);
+        details.append(title, text, cost);
+        const photo = document.createElement("img");
+        photo.src = `assets/item-${String(image).padStart(3, "0")}.jpg`;
+        photo.alt = name;
+        photo.loading = "lazy";
+        article.append(details, photo);
+        list.append(article);
+      });
+      section.append(heading, list);
+      menu.append(section);
+    });
+  </script>
+</body>
+</html>
